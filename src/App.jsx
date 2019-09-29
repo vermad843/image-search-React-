@@ -7,21 +7,26 @@ class App extends Component {
     this.state = {
      title : 'React Image Search',
      searchTerm : '',
-     loading : false 
-    }
+     loading : false ,
+     images : []
+    };
   }
 
   formSubmitted(event) {
     event.preventDefault();
 
    this.setState({
-    loading : true
+    loading : true,
+    images : []
    });
 
     API.search(this.state.searchTerm)
-    .then((images) => {
-      console.log(images);     
-    })
+    .then(images => {
+      this.setState({
+        loading : false ,
+       images
+      });
+    });
   }
 
   
@@ -49,6 +54,11 @@ class App extends Component {
             <button type = "submit">Search</button>
          </form>
          {loading ? <img src = "Blocks-1s-200px.gif" /> : '' }
+          <section className = "images">
+             {images.map((image) => {
+               return <img key ={image.id} alt ={image.description} src ={image.image_url[0]} />
+             })}
+          </section>
       </div>
     );
   }
