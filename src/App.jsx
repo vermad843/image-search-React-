@@ -7,11 +7,17 @@ class App extends Component {
     this.state = {
      title : 'React Image Search',
      searchTerm : '',
+     loading : false 
     }
   }
 
   formSubmitted(event) {
     event.preventDefault();
+
+   this.setState({
+    loading : true
+   });
+
     API.search(this.state.searchTerm)
     .then((images) => {
       console.log(images);     
@@ -26,8 +32,8 @@ class App extends Component {
     
   }
   render() {
-    const {title , searchTerm } = this.state ;
-    return (
+    const {title , searchTerm, loading  } = this.state ;
+         return (
       <div>
         <h1>
           {title} 
@@ -42,6 +48,7 @@ class App extends Component {
             id = "searchTerm"   />
             <button type = "submit">Search</button>
          </form>
+         {loading ? <img src = "Blocks-1s-200px.gif" /> : '' }
       </div>
     );
   }
