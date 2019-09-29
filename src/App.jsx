@@ -1,37 +1,38 @@
 import React, { Component } from 'react';
-import { tsConstructorType } from '@babel/types';
-
+import API from './API';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
      title : 'React Image Search',
-     searchTerm : '' 
+     searchTerm : '',
     }
+  }
+
+  formSubmitted(event) {
+    event.preventDefault();
+    API.search(this.state.searchTerm)
+    .then((images) => {
+      console.log(images);     
+    })
   }
 
   
   searchTermChanged(event) {
-    console.log(event.target.value);
     this.setState({
      searchTerm : event.target.value
     });
     
   }
-
-
-
-
-
   render() {
-    const {title , searchTerm} = this.state ;
+    const {title , searchTerm } = this.state ;
     return (
       <div>
         <h1>
           {title} 
         </h1>
-        <form>
+        <form onSubmit ={this.formSubmitted.bind(this)}>
         <label htmlFor = "searchTerm"></label>
           <input 
             onChange = {this.searchTermChanged.bind(this)}
@@ -45,5 +46,4 @@ class App extends Component {
     );
   }
 }
-
 export default App;
